@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bidtiful — Bid Credit Shop</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0F;color:#E8E8E8;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:60px;padding-bottom:70px}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(212,168,83,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,83,.03) 1px,transparent 1px),linear-gradient(rgba(212,168,83,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,83,.06) 1px,transparent 1px);background-size:60px 60px,60px 60px,20px 20px,20px 20px;z-index:0;pointer-events:none}
+
+.nav-top{position:fixed;top:0;left:0;width:100%;height:60px;background:rgba(10,10,15,.95);border-bottom:1px solid rgba(212,168,83,.2);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:1000;backdrop-filter:blur(10px)}
+.nav-logo{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#D4A853;letter-spacing:2px;text-transform:uppercase}
+.nav-top-links{display:flex;gap:6px}
+.nav-top-links a{color:rgba(232,232,232,.6);text-decoration:none;font-size:11px;font-weight:400;padding:6px 8px;border-radius:6px;transition:all .3s;white-space:nowrap}
+.nav-top-links a:hover,.nav-top-links a.active{color:#D4A853;background:rgba(212,168,83,.1)}
+
+.nav-bottom{position:fixed;bottom:0;left:0;width:100%;height:65px;background:rgba(10,10,15,.97);border-top:1px solid rgba(212,168,83,.2);display:flex;align-items:center;justify-content:space-around;z-index:1000;backdrop-filter:blur(10px)}
+.nav-bottom a{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(232,232,232,.5);font-size:10px;font-weight:500;transition:all .3s}
+.nav-bottom a:hover,.nav-bottom a.active{color:#D4A853}
+.nav-bottom a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.main{position:relative;z-index:1;padding:20px 16px;max-width:600px;margin:0 auto}
+
+/* Header */
+.shop-header{text-align:center;margin-bottom:28px}
+.shop-header h2{font-family:'Cinzel',serif;font-size:20px;font-weight:600;color:#D4A853;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.shop-header p{font-size:13px;color:rgba(232,232,232,.5);font-weight:300}
+
+/* Balance Banner */
+.balance-banner{background:linear-gradient(135deg,rgba(212,168,83,.12),rgba(212,168,83,.04));border:1px solid rgba(212,168,83,.25);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.balance-left{display:flex;align-items:center;gap:12px}
+.balance-icon{font-size:28px}
+.balance-info .balance-label{font-size:10px;color:rgba(232,232,232,.4);text-transform:uppercase;letter-spacing:1px}
+.balance-info .balance-amount{font-size:24px;font-weight:700;color:#D4A853;font-family:'Cinzel',serif}
+.balance-history{font-size:11px;color:rgba(212,168,83,.5);cursor:pointer;text-decoration:none;transition:color .3s}
+.balance-history:hover{color:#D4A853}
+
+/* Credit Packages */
+.packages-title{font-family:'Cinzel',serif;font-size:14px;color:rgba(232,232,232,.6);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center}
+.packages{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.pkg{background:linear-gradient(145deg,rgba(20,20,30,.9),rgba(10,10,15,.95));border:1px solid rgba(212,168,83,.12);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.pkg:hover{border-color:rgba(212,168,83,.35);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+.pkg.popular{border-color:rgba(212,168,83,.4)}
+.pkg.popular::before{content:'MOST POPULAR';position:absolute;top:0;right:0;background:linear-gradient(135deg,#D4A853,#B8903E);color:#0A0A0F;font-size:8px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:0 14px 0 10px}
+.pkg.best::before{content:'BEST VALUE';position:absolute;top:0;right:0;background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;font-size:8px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:0 14px 0 10px}
+.pkg-left{display:flex;align-items:center;gap:14px}
+.pkg-icon{font-size:32px}
+.pkg-details .pkg-credits{font-size:18px;font-weight:600;color:#E8E8E8}
+.pkg-details .pkg-credits span{font-size:12px;color:rgba(232,232,232,.4);font-weight:400}
+.pkg-details .pkg-bonus{font-size:11px;color:#4CAF50;margin-top:2px}
+.pkg-details .pkg-per{font-size:10px;color:rgba(232,232,232,.3);margin-top:2px}
+.pkg-price{text-align:right}
+.pkg-price .price-ton{font-size:18px;font-weight:700;color:#D4A853;font-family:'Cinzel',serif}
+.pkg-price .price-usd{font-size:10px;color:rgba(232,232,232,.3);margin-top:2px}
+
+/* How It Works */
+.how-section{margin-bottom:28px}
+.how-title{font-family:'Cinzel',serif;font-size:14px;color:rgba(232,232,232,.6);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center}
+.how-steps{display:flex;flex-direction:column;gap:12px}
+.how-step{background:linear-gradient(145deg,rgba(20,20,30,.9),rgba(10,10,15,.95));border:1px solid rgba(212,168,83,.08);border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px}
+.how-num{width:28px;height:28px;border-radius:50%;background:rgba(212,168,83,.15);color:#D4A853;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Cinzel',serif;flex-shrink:0}
+.how-text{flex:1}
+.how-text strong{font-size:13px;color:#E8E8E8;display:block;margin-bottom:2px}
+.how-text span{font-size:11px;color:rgba(232,232,232,.4);line-height:1.5}
+
+/* FAQ */
+.faq-section{margin-bottom:20px}
+.faq-title{font-family:'Cinzel',serif;font-size:14px;color:rgba(232,232,232,.6);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center}
+.faq-item{background:linear-gradient(145deg,rgba(20,20,30,.9),rgba(10,10,15,.95));border:1px solid rgba(212,168,83,.08);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.faq-q{padding:14px 16px;font-size:13px;font-weight:500;color:#E8E8E8;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .3s}
+.faq-q:hover{color:#D4A853}
+.faq-arrow{font-size:11px;color:rgba(212,168,83,.4);transition:transform .3s}
+.faq-a{padding:0 16px 14px;font-size:12px;color:rgba(232,232,232,.5);line-height:1.6;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+
+/* Purchase Modal */
+.purchase-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center;padding:16px}
+.purchase-overlay.show{display:flex}
+.purchase-box{background:linear-gradient(145deg,#14141E,#0A0A0F);border:1px solid rgba(212,168,83,.3);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 0 60px rgba(212,168,83,.1);animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.purchase-box .purchase-icon{font-size:48px;margin-bottom:14px}
+.purchase-box h3{font-family:'Cinzel',serif;font-size:18px;color:#D4A853;margin-bottom:8px;letter-spacing:1px}
+.purchase-box .purchase-summary{font-size:13px;color:rgba(232,232,232,.6);margin-bottom:6px;line-height:1.6}
+.purchase-box .purchase-total{font-size:22px;font-weight:700;color:#D4A853;font-family:'Cinzel',serif;margin-bottom:20px}
+.purchase-box .purchase-note{font-size:10px;color:rgba(232,232,232,.3);margin-bottom:20px;line-height:1.5}
+.purchase-btns{display:flex;flex-direction:column;gap:10px}
+.purchase-btns .confirm-btn{background:linear-gradient(135deg,#D4A853,#B8903E);color:#0A0A0F;border:none;padding:12px 28px;border-radius:30px;font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.purchase-btns .confirm-btn:hover{transform:scale(1.05);box-shadow:0 0 25px rgba(212,168,83,.3)}
+.purchase-btns .cancel-btn{background:none;border:1px solid rgba(212,168,83,.2);color:rgba(232,232,232,.5);padding:10px 28px;border-radius:30px;font-size:12px;font-weight:500;cursor:pointer;transition:all .3s}
+.purchase-btns .cancel-btn:hover{border-color:rgba(212,168,83,.4);color:#E8E8E8}
+
+/* Success Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-100px);background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;padding:14px 28px;border-radius:12px;font-size:13px;font-weight:500;z-index:3000;opacity:0;transition:all .4s ease;display:flex;align-items:center;gap:8px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.powered-by{text-align:center;margin-top:32px;padding-bottom:10px}
+.powered-by span{font-size:11px;color:rgba(212,168,83,.3);letter-spacing:2px;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<nav class="nav-top">
+<div class="nav-logo">Bidtiful</div>
+<div class="nav-top-links">
+<a href="home.html">Home</a>
+<a href="#">Auctions</a>
+<a href="#" class="active">Bid Shop</a>
+<a href="profile.html">Profile</a>
+<a href="wallet.html">Wallet</a>
+</div>
+</nav>
+
+<div class="main">
+<div class="shop-header">
+<h2>Bid Credit Shop</h2>
+<p>Bid for beautiful On-Chain Art</p>
+</div>
+
+<!-- Balance Banner -->
+<div class="balance-banner">
+<div class="balance-left">
+<div class="balance-icon">&#128176;</div>
+<div class="balance-info">
+<div class="balance-label">Your Balance</div>
+<div class="balance-amount" id="creditBalance">156</div>
+</div>
+</div>
+<a class="balance-history" onclick="alert('Purchase history coming soon!')">History &#8250;</a>
+</div>
+
+<!-- Credit Packages -->
+<div class="packages-title">Choose a Package</div>
+<div class="packages">
+<div class="pkg" onclick="openPurchase('Starter','10','0.5','~$1.25','')">
+<div class="pkg-left">
+<div class="pkg-icon">&#9733;</div>
+<div class="pkg-details">
+<div class="pkg-credits">10 Credits</div>
+<div class="pkg-per">0.05 TON per credit</div>
+</div>
+</div>
+<div class="pkg-price">
+<div class="price-ton">0.5 TON</div>
+<div class="price-usd">~$1.25</div>
+</div>
+</div>
+
+<div class="pkg" onclick="openPurchase('Standard','25','1.0','~$2.50','+2 bonus')">
+<div class="pkg-left">
+<div class="pkg-icon">&#11088;</div>
+<div class="pkg-details">
+<div class="pkg-credits">25 Credits <span>+2 bonus</span></div>
+<div class="pkg-bonus">+2 Bonus Credits!</div>
+<div class="pkg-per">0.037 TON per credit</div>
+</div>
+</div>
+<div class="pkg-price">
+<div class="price-ton">1.0 TON</div>
+<div class="price-usd">~$2.50</div>
+</div>
+</div>
+
+<div class="pkg popular" onclick="openPurchase('Popular','50','1.75','~$4.38','+8 bonus')">
+<div class="pkg-left">
+<div class="pkg-icon">&#128293;</div>
+<div class="pkg-details">
+<div class="pkg-credits">50 Credits <span>+8 bonus</span></div>
+<div class="pkg-bonus">+8 Bonus Credits!</div>
+<div class="pkg-per">0.030 TON per credit</div>
+</div>
+</div>
+<div class="pkg-price">
+<div class="price-ton">1.75 TON</div>
+<div class="price-usd">~$4.38</div>
+</div>
+</div>
+
+<div class="pkg best" onclick="openPurchase('Best Value','100','3.0','~$7.50','+20 bonus')">
+<div class="pkg-left">
+<div class="pkg-icon">&#128142;</div>
+<div class="pkg-details">
+<div class="pkg-credits">100 Credits <span>+20 bonus</span></div>
+<div class="pkg-bonus">+20 Bonus Credits!</div>
+<div class="pkg-per">0.025 TON per credit</div>
+</div>
+</div>
+<div class="pkg-price">
+<div class="price-ton">3.0 TON</div>
+<div class="price-usd">~$7.50</div>
+</div>
+</div>
+
+<div class="pkg" onclick="openPurchase('Whale','250','6.0','~$15.00','+60 bonus')">
+<div class="pkg-left">
+<div class="pkg-icon">&#127912;</div>
+<div class="pkg-details">
+<div class="pkg-credits">250 Credits <span>+60 bonus</span></div>
+<div class="pkg-bonus">+60 Bonus Credits!</div>
+<div class="pkg-per">0.019 TON per credit</div>
+</div>
+</div>
+<div class="pkg-price">
+<div class="price-ton">6.0 TON</div>
+<div class="price-usd">~$15.00</div>
+</div>
+</div>
+</div>
+
+<!-- How It Works -->
+<div class="how-section">
+<div class="how-title">How Credits Work</div>
+<div class="how-steps">
+<div class="how-step">
+<div class="how-num">1</div>
+<div class="how-text">
+<strong>Buy Credits</strong>
+<span>Purchase bid credits with TON from your connected wallet. Credits are added instantly.</span>
+</div>
+</div>
+<div class="how-step">
+<div class="how-num">2</div>
+<div class="how-text">
+<strong>Place Bids</strong>
+<span>Each bid on an artwork costs 1 credit. Bid as many times as you want on any auction.</span>
+</div>
+</div>
+<div class="how-step">
+<div class="how-num">3</div>
+<div class="how-text">
+<strong>Win or Get Refunded</strong>
+<span>Win the auction and the art is yours. Lose? 100% of your credits for that auction are returned.</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+<div class="faq-title">Common Questions</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">Can I convert credits back to TON? <span class="faq-arrow">&#9660;</span></div>
+<div class="faq-a">No. Bid credits are non-refundable and cannot be converted back to cryptocurrency. However, if you lose an auction, all credits you spent on bids in that auction are returned to your balance.</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">What happens to my credits if I win? <span class="faq-arrow">&#9660;</span></div>
+<div class="faq-a">When you win an auction, the credits you spent on bids are consumed and you receive the artwork as an NFT in your wallet. The artwork is yours forever.</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">Do credits expire? <span class="faq-arrow">&#9660;</span></div>
+<div class="faq-a">No! Your bid credits never expire. Use them whenever you're ready — no rush.</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">Who pays the gas fees? <span class="faq-arrow">&#9660;</span></div>
+<div class="faq-a">Bidtiful covers all blockchain gas fees. Your credit purchase price is the only cost — no hidden fees, no surprises.</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">Are bonus credits different from regular credits? <span class="faq-arrow">&#9660;</span></div>
+<div class="faq-a">Nope! Bonus credits work exactly the same as regular credits. They're just our way of saying thanks for buying bigger packages.</div>
+</div>
+</div>
+
+<div class="powered-by">
+<span>&#128142; Powered by TON Blockchain</span>
+</div>
+</div>
+
+<!-- Purchase Confirmation Modal -->
+<div class="purchase-overlay" id="purchaseModal">
+<div class="purchase-box">
+<div class="purchase-icon">&#128176;</div>
+<h3>Confirm Purchase</h3>
+<div class="purchase-summary" id="purchaseSummary">50 Credits +8 Bonus</div>
+<div class="purchase-total" id="purchaseTotal">1.75 TON</div>
+<div class="purchase-note">Credits are non-refundable but are returned if you lose an auction. Gas fees covered by Bidtiful.</div>
+<div class="purchase-btns">
+<button class="confirm-btn" onclick="completePurchase()">Confirm Purchase</button>
+<button class="cancel-btn" onclick="closePurchase()">Cancel</button>
+</div>
+</div>
+</div>
+
+<!-- Success Toast -->
+<div class="toast" id="toast">&#10003; Credits added to your balance!</div>
+
+<!-- Bottom Nav -->
+<nav class="nav-bottom">
+<a href="home.html">
+<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+<span>Home</span>
+</a>
+<a href="#">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+<span>Auctions</span>
+</a>
+<a href="#" class="active">
+<svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+<span>Bid Shop</span>
+</a>
+<a href="profile.html">
+<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span>Profile</span>
+</a>
+<a href="wallet.html">
+<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+<span>Wallet</span>
+</a>
+</nav>
+
+<script>
+var pendingCredits=0;
+var pendingName='';
+
+function openPurchase(name,credits,ton,usd,bonus){
+pendingName=name;
+pendingCredits=parseInt(credits);
+var bonusNum=bonus?parseInt(bonus.replace(/[^0-9]/g,'')):0;
+document.getElementById('purchaseSummary').textContent=credits+' Credits'+(bonus?' '+bonus:'');
+document.getElementById('purchaseTotal').textContent=ton+' TON';
+document.getElementById('purchaseModal').classList.add('show');
+}
+
+function closePurchase(){document.getElementById('purchaseModal').classList.remove('show')}
+
+function completePurchase(){
+closePurchase();
+var bal=document.getElementById('creditBalance');
+var current=parseInt(bal.textContent);
+var bonusMap={Starter:0,Standard:2,Popular:8,'Best Value':20,Whale:60};
+var bonus=bonusMap[pendingName]||0;
+var newBal=current+pendingCredits+bonus;
+bal.textContent=newBal;
+localStorage.setItem('bidtiful_credits',newBal);
+showToast('Credits added to your balance!');
+}
+
+function showToast(msg){
+var t=document.getElementById('toast');
+t.innerHTML='&#10003; '+msg;
+t.classList.add('show');
+setTimeout(function(){t.classList.remove('show')},3000);
+}
+
+function loadBalance(){
+var saved=localStorage.getItem('bidtiful_credits');
+if(saved){document.getElementById('creditBalance').textContent=saved}
+}
+window.addEventListener('load',loadBalance);
+</script>
+</body>
+  </html>
