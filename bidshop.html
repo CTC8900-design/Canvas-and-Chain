@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bidtiful — Bid Credit Shop</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0F;color:#E8E8E8;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:60px;padding-bottom:70px}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(212,168,83,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,83,.03) 1px,transparent 1px),linear-gradient(rgba(212,168,83,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,83,.06) 1px,transparent 1px);background-size:60px 60px,60px 60px,20px 20px,20px 20px;z-index:0;pointer-events:none}
+
+/* Nav */
+.nav-top{position:fixed;top:0;left:0;width:100%;height:60px;background:rgba(10,10,15,.95);border-bottom:1px solid rgba(212,168,83,.2);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:1000;backdrop-filter:blur(10px)}
+.nav-logo{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#D4A853;letter-spacing:2px;text-transform:uppercase}
+.nav-top-links{display:flex;gap:6px}
+.nav-top-links a{color:rgba(232,232,232,.6);text-decoration:none;font-size:11px;font-weight:400;padding:6px 8px;border-radius:6px;transition:all .3s;white-space:nowrap}
+.nav-top-links a:hover,.nav-top-links a.active{color:#D4A853;background:rgba(212,168,83,.1)}
+.nav-bottom{position:fixed;bottom:0;left:0;width:100%;height:65px;background:rgba(10,10,15,.97);border-top:1px solid rgba(212,168,83,.2);display:flex;align-items:center;justify-content:space-around;z-index:1000;backdrop-filter:blur(10px)}
+.nav-bottom a{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:rgba(232,232,232,.5);font-size:10px;font-weight:500;transition:all .3s}
+.nav-bottom a:hover,.nav-bottom a.active{color:#D4A853}
+.nav-bottom a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Main */
+.main{position:relative;z-index:1;padding:20px 16px;max-width:600px;margin:0 auto}
+
+/* Section Headers */
+.section-header{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:#D4A853;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;text-align:center}
+.section-sub{font-size:13px;color:rgba(232,232,232,.45);margin-bottom:20px;line-height:1.5;text-align:center}
+
+/* Balance Bar */
+.balance-bar{display:flex;gap:12px;margin-bottom:24px}
+.balance-card{flex:1;background:linear-gradient(145deg,rgba(20,20,30,.9),rgba(10,10,15,.95));border:1px solid rgba(212,168,83,.15);border-radius
